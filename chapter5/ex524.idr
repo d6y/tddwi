@@ -1,3 +1,5 @@
+import System
+
 readNumber : IO (Maybe Nat)
 readNumber = do
  input <- getLine
@@ -33,3 +35,12 @@ guess : (target : Nat) -> IO ()
 guess target =
   do putStrLn "I'm thinking of a number."
      replNumWith target "What's your guess? " eval_guess
+
+
+main : IO ()
+main = randomNat >>= guess
+  where
+    randomNat : IO Nat
+    randomNat = do random <- time
+                   let upto100 = mod random 100
+                   pure (fromIntegerNat upto100)

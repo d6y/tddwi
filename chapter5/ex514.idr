@@ -10,6 +10,6 @@ lld = do
   putStrLn (show winner)
 
 llb : IO ()
-llb = getLine >>= \s1 => getLine >>= \s2 => putStrLn (show (longer (length s1) (length s2)))
-
-
+llb = getLine >>= \s1 =>
+        getLine >>= \s2 =>
+          putStrLn (show (longer (length s1) (length s2)))
