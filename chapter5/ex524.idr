@@ -23,18 +23,19 @@ replNumWith state prompt onInput =
     punish = do putStrLn "Please enter number"
                 replNumWith state prompt onInput
 
+data State = Progress Nat Nat
 
-eval_guess : (target : Nat) -> (input: Nat) -> Maybe (String, Nat)
-eval_guess target input =
+eval_guess : (state: State) -> (input: Nat) -> Maybe (String, State)
+eval_guess (Progress target guesses) input =
   case compare input target of
-    LT => Just ("Too low", target)
+    LT => Just ( (show guesses) ++ " - too low", Progress target (1 + guesses) )
     EQ => Nothing
-    GT => Just ("Too high", target)
+    GT => Just ( (show guesses) ++ " - too high", Progress target (1 + guesses) )
 
 guess : (target : Nat) -> IO ()
 guess target =
   do putStrLn "I'm thinking of a number."
-     replNumWith target "What's your guess? " eval_guess
+     replNumWith (Progress target 1) "What's your guess? " eval_guess
 
 
 main : IO ()
